@@ -1,0 +1,493 @@
+"use client";
+import { useState, useEffect } from "react";
+import { useTripPlanner } from "@/context/TripPlannerContext";
+
+const destinations = [
+  "Serengeti National Park",
+  "Ngorongoro Crater",
+  "Zanzibar",
+  "Mount Kilimanjaro",
+  "Mikumi National Park",
+  "Lake Manyara",
+  "Ruaha National Park",
+];
+
+const travellers = ["1 Traveller", "2 Travellers", "3–4 Travellers", "5+ Travellers"];
+
+const budgets = [
+  "Under $1,000",
+  "$1,000 – $2,500",
+  "$2,500 – $5,000",
+  "$5,000 – $10,000",
+  "$10,000+",
+  "Custom Budget",
+];
+
+export default function TripPlannerModal() {
+  const { isOpen, closeModal, preFill } = useTripPlanner();
+
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [destination, setDestination] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [numTravellers, setNumTravellers] = useState("2 Travellers");
+  const [budget, setBudget] = useState("");
+
+  const [confirmed, setConfirmed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState("");
+  const [mounted, setMounted] = useState(false);
+
+  /* Pre-fill fields from hero card */
+  useEffect(() => {
+    if (isOpen) {
+      if (preFill.destination) setDestination(preFill.destination);
+      if (preFill.startDate) setStartDate(preFill.startDate);
+      if (preFill.endDate) setEndDate(preFill.endDate);
+      if (preFill.numTravellers) setNumTravellers(preFill.numTravellers);
+      setTimeout(() => setMounted(true), 10);
+    } else {
+      setMounted(false);
+      setTimeout(() => {
+        setConfirmed(false);
+        setApiError("");
+        setFullName("");
+        setEmail("");
+        setPhone("");
+        setDestination("");
+        setStartDate("");
+        setEndDate("");
+        setNumTravellers("2 Travellers");
+        setBudget("");
+      }, 300);
+    }
+  }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /* Lock body scroll when open */
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
+
+  const handleBookNow = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setApiError("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName,
+          email,
+          phone,
+          destination,
+          startDate,
+          endDate,
+          numTravellers,
+          budget,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setApiError(data.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+
+      setConfirmed(true);
+      setTimeout(() => closeModal(), 6000);
+    } catch {
+      setApiError("Network error. Please check your connection and try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[999] flex items-center justify-center px-4 py-8"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Plan Your Trip"
+    >
+      {/* Backdrop */}
+      <div
+        className={`absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300 ${
+          mounted ? "opacity-100" : "opacity-0"
+        }`}
+        onClick={closeModal}
+      />
+
+      {/* Modal card */}
+      <div
+        className={`relative z-10 w-full max-w-lg bg-[#141414] border border-white/10 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden transition-all duration-300 ${
+          mounted ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"
+        }`}
+      >
+        {/* ─── CONFIRMATION STATE ─── */}
+        {confirmed ? (
+          <div className="flex flex-col items-center justify-center text-center px-8 py-16 min-h-[360px]">
+            {/* Animated checkmark */}
+            <div className="w-20 h-20 rounded-full bg-[var(--gold)]/15 border-2 border-[var(--gold)] flex items-center justify-center mb-6 animate-pulse-gold">
+              <svg
+                width="36"
+                height="36"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--gold)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+
+            <p className="section-label mb-3">Booking Received</p>
+            <h2 className="text-2xl font-bold text-white mb-3">Thank You!</h2>
+            <p className="text-white/60 text-sm leading-relaxed max-w-xs">
+              Our team will contact you soon to confirm your perfect trip.
+              We typically respond within{" "}
+              <span className="text-[var(--gold)] font-semibold">2–4 hours</span>.
+            </p>
+
+            <div className="mt-8 w-full max-w-xs">
+              <button onClick={closeModal} className="btn-gold w-full justify-center text-sm py-3">
+                Close
+              </button>
+            </div>
+
+            {/* Auto-close progress bar */}
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/8 overflow-hidden">
+              <div
+                className="h-full bg-[var(--gold)] origin-left"
+                style={{ animation: "shrink 6s linear forwards" }}
+              />
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* ─── FORM STATE ─── */}
+            {/* Header */}
+            <div className="flex items-start justify-between p-6 pb-5 border-b border-white/8">
+              <div className="flex items-center gap-4">
+                <div className="w-11 h-11 rounded-xl bg-[var(--gold)]/12 border border-[var(--gold)]/25 flex items-center justify-center shrink-0">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--gold)"
+                    strokeWidth="1.8"
+                  >
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-white font-bold text-lg leading-tight">
+                    Find Your Perfect Trip
+                  </h2>
+                  <p className="text-white/45 text-xs mt-0.5">
+                    Fill in your details and we&apos;ll craft your ideal itinerary
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={closeModal}
+                className="text-white/40 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/8 ml-3 shrink-0"
+                aria-label="Close modal"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Scrollable form body */}
+            <div className="overflow-y-auto max-h-[75vh]">
+              <form onSubmit={handleBookNow} className="p-6 space-y-4">
+
+                {/* ── CONTACT DETAILS SECTION ── */}
+                <div className="pb-1">
+                  <p className="text-[var(--gold)] text-[10px] font-bold tracking-[0.18em] uppercase mb-3">
+                    Contact Details
+                  </p>
+
+                  {/* Full Name */}
+                  <div className="mb-3">
+                    <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
+                      Full Name
+                    </label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--gold)]">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                          <circle cx="12" cy="7" r="4" />
+                        </svg>
+                      </div>
+                      <input
+                        type="text"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="e.g. Jane Smith"
+                        className="input-dark pl-9 text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div className="mb-3">
+                    <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
+                      Email Address <span className="text-[var(--gold)]">*</span>
+                    </label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--gold)]">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="2" y="4" width="20" height="16" rx="2" />
+                          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                        </svg>
+                      </div>
+                      <input
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@example.com"
+                        className="input-dark pl-9 text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Phone */}
+                  <div>
+                    <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
+                      Phone Number <span className="text-[var(--gold)]">*</span>
+                    </label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--gold)]">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.57 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 5.55 5.55l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z" />
+                        </svg>
+                      </div>
+                      <input
+                        type="tel"
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="+1 (555) 000-0000"
+                        className="input-dark pl-9 text-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-white/8" />
+
+                {/* ── TRIP DETAILS SECTION ── */}
+                <div className="pb-1">
+                  <p className="text-[var(--gold)] text-[10px] font-bold tracking-[0.18em] uppercase mb-3">
+                    Trip Details
+                  </p>
+
+                  {/* Destination */}
+                  <div className="mb-3">
+                    <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
+                      Destination <span className="text-[var(--gold)]">*</span>
+                    </label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--gold)]">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                          <circle cx="12" cy="10" r="3" />
+                        </svg>
+                      </div>
+                      <select
+                        required
+                        value={destination}
+                        onChange={(e) => setDestination(e.target.value)}
+                        className="input-dark pl-9 pr-8 text-sm cursor-pointer"
+                      >
+                        <option value="">Select destination</option>
+                        {destinations.map((d) => (
+                          <option key={d} value={d}>{d}</option>
+                        ))}
+                      </select>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/35">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="m6 9 6 6 6-6" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Travel Dates */}
+                  <div className="mb-3">
+                    <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
+                      Travel Dates
+                    </label>
+                    <div className="flex items-center gap-2 bg-[var(--dark-3)] rounded-lg border border-white/10 px-3 py-2.5 focus-within:border-[var(--gold)] transition-colors">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                      </svg>
+                      <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        className="bg-transparent outline-none text-sm text-white/70 flex-1 min-w-0 [color-scheme:dark]"
+                      />
+                      <span className="text-white/20 text-sm">→</span>
+                      <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        className="bg-transparent outline-none text-sm text-white/70 flex-1 min-w-0 [color-scheme:dark]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Number of Travellers */}
+                  <div className="mb-3">
+                    <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
+                      Number of Travellers
+                    </label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--gold)]">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                          <circle cx="9" cy="7" r="4" />
+                          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                      </div>
+                      <select
+                        value={numTravellers}
+                        onChange={(e) => setNumTravellers(e.target.value)}
+                        className="input-dark pl-9 pr-8 text-sm cursor-pointer"
+                      >
+                        {travellers.map((t) => (
+                          <option key={t} value={t}>{t}</option>
+                        ))}
+                      </select>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/35">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="m6 9 6 6 6-6" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Budget */}
+                  <div>
+                    <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
+                      Your Budget <span className="text-[var(--gold)]">*</span>
+                    </label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--gold)]">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <line x1="12" y1="1" x2="12" y2="23" />
+                          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                        </svg>
+                      </div>
+                      <select
+                        required
+                        value={budget}
+                        onChange={(e) => setBudget(e.target.value)}
+                        className="input-dark pl-9 pr-8 text-sm cursor-pointer"
+                      >
+                        <option value="">Select your budget range</option>
+                        {budgets.map((b) => (
+                          <option key={b} value={b}>{b}</option>
+                        ))}
+                      </select>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/35">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="m6 9 6 6 6-6" />
+                        </svg>
+                      </div>
+                    </div>
+                    {budget && (
+                      <div className="mt-2 flex items-center gap-1.5">
+                        <span className="text-[10px] text-[var(--gold)] bg-[var(--gold)]/10 border border-[var(--gold)]/25 px-2.5 py-1 rounded-full font-semibold">
+                          ✓ {budget}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setBudget("")}
+                          className="text-[10px] text-white/35 hover:text-white/60 transition-colors"
+                        >
+                          change
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* API Error */}
+                {apiError && (
+                  <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2.5">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <span className="text-red-400 text-xs">{apiError}</span>
+                  </div>
+                )}
+
+                {/* Divider */}
+                <div className="border-t border-white/8" />
+
+                {/* Book Now */}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="btn-gold w-full justify-center text-sm py-3.5 rounded-xl font-bold tracking-wide disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <>
+                      <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                      </svg>
+                      Sending…
+                    </>
+                  ) : (
+                    <>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M20 12V22H4V12" />
+                        <path d="M22 7H2v5h20V7z" />
+                        <path d="M12 22V7" />
+                        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+                        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+                      </svg>
+                      Book Now
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Keyframe styles */}
+      <style>{`
+        @keyframes shrink {
+          from { width: 100%; }
+          to   { width: 0%;   }
+        }
+      `}</style>
+    </div>
+  );
+}
