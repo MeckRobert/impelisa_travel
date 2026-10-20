@@ -43,7 +43,7 @@ export default function Footer() {
                   src="/images/logo.png"
                   alt="Impelisa Travel & Tours Africa"
                   fill
-                  className="object-contain"
+                  className="object-contain rounded-xl"
                 />
               </div>
               <div>

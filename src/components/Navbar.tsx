@@ -43,7 +43,7 @@ export default function Navbar() {
               src="/images/logo.png"
               alt="Impelisa Travel & Tours Africa"
               fill
-              className="object-contain"
+              className="object-contain rounded-xl"
             />
           </div>
           <div className="leading-tight">
