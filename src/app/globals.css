@@ -223,3 +223,12 @@
     50% { box-shadow: 0 0 0 10px rgba(200,151,42,0); }
   }
 }
+
+@media print {
+  aside, header, button, nav {
+    display: none !important;
+  }
+  .print-report {
+    box-shadow: none !important;
+  }
+}

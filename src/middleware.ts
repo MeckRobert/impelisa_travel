@@ -23,8 +23,12 @@ export async function middleware(request: NextRequest) {
 
   // ── Admin UI routes ─────────────────────────────────────────────
   if (pathname.startsWith("/admin")) {
-    // Login page is always accessible
-    if (pathname === "/admin/login") return NextResponse.next();
+    if (pathname === "/admin/login") {
+      if (await isAuthenticated(request)) {
+        return NextResponse.redirect(new URL("/admin", request.url));
+      }
+      return NextResponse.next();
+    }
 
     if (!(await isAuthenticated(request))) {
       const loginUrl = new URL("/admin/login", request.url);

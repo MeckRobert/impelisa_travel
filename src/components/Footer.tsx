@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import FooterLogin from "@/components/FooterLogin";
 
 const footerLinks = {
   Destinations: [
@@ -160,6 +161,7 @@ export default function Footer() {
             <Link href="#" className="text-white/35 hover:text-white/60 text-xs transition-colors">
               Terms of Service
             </Link>
+            <FooterLogin />
           </div>
         </div>
       </div>

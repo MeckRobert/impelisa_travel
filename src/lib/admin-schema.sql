@@ -9,6 +9,9 @@ BEGIN
   IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='bookings' AND column_name='amount') THEN
     ALTER TABLE bookings ADD COLUMN amount NUMERIC(10,2) DEFAULT 0;
   END IF;
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='bookings' AND column_name='notes') THEN
+    ALTER TABLE bookings ADD COLUMN notes TEXT;
+  END IF;
 END $$;
 
 -- 2. Destinations table

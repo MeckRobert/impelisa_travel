@@ -17,16 +17,28 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
 export async function PATCH(req: NextRequest, ctx: Ctx) {
   const { id } = await ctx.params;
   const body = await req.json();
-  const { status, amount } = body;
+  const { status, amount, notes } = body;
   try {
     const result = await pool.query(
-      `UPDATE bookings SET status = COALESCE($1, status), amount = COALESCE($2, amount)
-       WHERE id = $3 RETURNING *`,
-      [status ?? null, amount ?? null, id]
+      `UPDATE bookings SET
+         status = COALESCE($1, status),
+         amount = COALESCE($2, amount),
+         notes = COALESCE($3, notes)
+       WHERE id = $4 RETURNING *`,
+      [status ?? null, amount ?? null, notes ?? null, id]
     );
     return NextResponse.json({ booking: result.rows[0] });
   } catch {
-    return NextResponse.json({ error: "Failed" }, { status: 500 });
+    try {
+      const result = await pool.query(
+        `UPDATE bookings SET status = COALESCE($1, status), amount = COALESCE($2, amount)
+         WHERE id = $3 RETURNING *`,
+        [status ?? null, amount ?? null, id]
+      );
+      return NextResponse.json({ booking: result.rows[0] });
+    } catch {
+      return NextResponse.json({ error: "Failed" }, { status: 500 });
+    }
   }
 }
 
