@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const packages = [
   {
@@ -8,8 +9,7 @@ const packages = [
     nights: "2 Nights",
     price: "$1,200",
     tag: "Classic Safari",
-    emoji: "🦁",
-    gradient: "from-amber-900/60 to-black/90",
+    image: "/images/serengeti.jpg",
     bg: "bg-amber-950/30",
   },
   {
@@ -19,8 +19,7 @@ const packages = [
     nights: "4 Nights",
     price: "$1,850",
     tag: "Family Safari",
-    emoji: "🐘",
-    gradient: "from-emerald-900/60 to-black/90",
+    image: "/images/ngorongoro.jpg",
     bg: "bg-emerald-950/30",
     featured: true,
   },
@@ -31,8 +30,7 @@ const packages = [
     nights: "6 Nights",
     price: "$1,650",
     tag: "Beach & Safari",
-    emoji: "🌊",
-    gradient: "from-cyan-900/60 to-black/90",
+    image: "/images/zanzibar.jpg",
     bg: "bg-cyan-950/30",
   },
   {
@@ -42,8 +40,7 @@ const packages = [
     nights: "7 Nights",
     price: "$2,800",
     tag: "Luxury Safari",
-    emoji: "🏔️",
-    gradient: "from-blue-900/60 to-black/90",
+    image: "/images/kilimanjaro.jpg",
     bg: "bg-blue-950/30",
   },
 ];
@@ -122,9 +119,20 @@ export default function PackagesSection() {
               )}
 
               {/* Image placeholder with gradient */}
-              <div className={`h-44 relative flex items-center justify-center ${pkg.bg} border-b border-white/8`}>
-                <span className="text-6xl select-none">{pkg.emoji}</span>
-                <div className={`absolute inset-0 bg-gradient-to-b ${pkg.gradient}`} />
+              
+
+              <div
+                className={`h-44 relative overflow-hidden ${pkg.bg} border-b border-white/8`}
+              >
+                {/* Background image */}
+                <Image
+                  src={pkg.image}
+                  alt={pkg.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 400px"
+                  className="object-cover transition-transform duration-500 hover:scale-110"
+                />
+
               </div>
 
               {/* Content */}

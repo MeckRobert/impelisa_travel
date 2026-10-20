@@ -15,8 +15,7 @@ const experiences = [
     title: "Game Drives",
     subtitle: "Get up close with Africa's wildlife",
     desc: "Explore the African bush at golden hour with an expert naturalist guide. Spot the Big Five in their natural habitat as dawn breaks over the savannah.",
-    image: "/images/serengeti.jpg",
-    icon: "🦁",
+    image: "/images/game-drive.png",
     duration: "4–8 hours",
     difficulty: "Easy",
     tag: "Wildlife",
@@ -25,8 +24,7 @@ const experiences = [
     title: "Hot Air Balloon Safari",
     subtitle: "A new perspective of the wild",
     desc: "Drift silently above the Serengeti at sunrise, watching herds move through the plains. End with a champagne bush breakfast below.",
-    image: "/images/hero-safari.png",
-    icon: "🎈",
+    image: "/images/hot.jpeg",
     duration: "3–4 hours",
     difficulty: "Easy",
     tag: "Adventure",
@@ -35,8 +33,7 @@ const experiences = [
     title: "Cultural Visits",
     subtitle: "Meet local communities",
     desc: "Immerse yourself in Maasai culture, visit authentic villages, and learn age-old traditions from welcoming local communities.",
-    image: "/images/ngorongoro.jpg",
-    icon: "🏺",
+    image: "/images/masai.jpeg",
     duration: "Half Day",
     difficulty: "Easy",
     tag: "Culture",
@@ -45,8 +42,7 @@ const experiences = [
     title: "Marine Adventures",
     subtitle: "Explore the Indian Ocean",
     desc: "Snorkel vibrant coral reefs, swim with whale sharks, or dive into crystal-clear waters teeming with colourful marine life off Zanzibar.",
-    image: "/images/zanzibar.jpg",
-    icon: "🐠",
+    image: "/images/marine.jpeg",
     duration: "Full Day",
     difficulty: "Moderate",
     tag: "Marine",
@@ -55,8 +51,7 @@ const experiences = [
     title: "Hiking & Trekking",
     subtitle: "Adventure in every step",
     desc: "Trek through rainforests, crater rims, and alpine deserts. From gentle nature walks to the mighty summit of Kilimanjaro.",
-    image: "/images/kilimanjaro.jpg",
-    icon: "🏔️",
+    image: "/images/hikking.jpeg",
     duration: "1–9 Days",
     difficulty: "Moderate–Hard",
     tag: "Adventure",
@@ -65,8 +60,7 @@ const experiences = [
     title: "Beach Relaxation",
     subtitle: "Unwind in paradise",
     desc: "Sink into powdery white sands on Zanzibar's pristine beaches. Enjoy turquoise waters, fresh seafood, and spectacular Indian Ocean sunsets.",
-    image: "/images/zanzibar.jpg",
-    icon: "🌊",
+    image: "/images/beach1.jpeg",
     duration: "Flexible",
     difficulty: "Easy",
     tag: "Beach",
@@ -139,10 +133,7 @@ export default function ExperiencesPage() {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent" />
-                  {/* Icon overlay */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-2xl bg-black/50 backdrop-blur-sm flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
-                    {exp.icon}
-                  </div>
+                  
                   <div className="absolute top-3 right-3">
                     <span className="text-[10px] font-bold bg-[var(--gold)] text-black px-2.5 py-1 rounded-full uppercase tracking-wide">
                       {exp.tag}
