@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   keywords: "Africa safari, Tanzania tour, Serengeti, Kilimanjaro, Zanzibar, wildlife, travel",
   openGraph: {
     title: "Impelisa Travel & Tours Africa",
-    description: "Your Trusted Safari Partner in Africa",
+    description: "Yaour Trusted Safari Partner in Africa",
     type: "website",
   },
 };
