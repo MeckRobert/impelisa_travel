@@ -51,7 +51,7 @@ export default function Footer() {
                   IMPELISA
                 </div>
                 <div className="text-white/50 text-[0.65rem] tracking-widest uppercase">
-                  Travel &amp; Tours Africa
+                  Travel &amp; Tours Ltd
                 </div>
               </div>
             </Link>

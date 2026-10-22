@@ -51,7 +51,7 @@ export default function Navbar() {
               IMPELISA
             </div>
             <div className="text-white/60 text-[0.65rem] tracking-widest uppercase">
-              Travel &amp; Tours Africa
+              Travel &amp; Tours Ltd
             </div>
           </div>
         </Link>
