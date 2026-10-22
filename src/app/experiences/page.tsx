@@ -107,7 +107,7 @@ export default function ExperiencesPage() {
       </section>
 
       {/* Experiences Grid */}
-      <section className="bg-[var(--dark)] py-16">
+      <section className="bg-[var(--bg)] py-16">
         <div className="max-w-[1320px] mx-auto px-6">
           <div className="text-center max-w-xl mx-auto mb-12">
             <p className="section-label mb-2">Hand-Curated</p>
@@ -123,7 +123,7 @@ export default function ExperiencesPage() {
             {experiences.map((exp) => (
               <div
                 key={exp.title}
-                className="rounded-xl overflow-hidden border border-white/8 card-hover group bg-[var(--dark-3)]"
+                className="rounded-xl overflow-hidden border border-white/8 card-hover group bg-[var(--bg-3)]"
               >
                 {/* Image */}
                 <div className="relative h-52 overflow-hidden">
@@ -177,7 +177,7 @@ export default function ExperiencesPage() {
       </section>
 
       {/* How It Works */}
-      <section className="bg-[var(--dark-2)] py-16 border-t border-white/8">
+      <section className="bg-[var(--bg-2)] py-16 border-t border-white/8">
         <div className="max-w-[1320px] mx-auto px-6">
           <div className="text-center mb-12">
             <p className="section-label mb-2">Simple Process</p>

@@ -1,36 +1,40 @@
-const testimonials = [
-  {
-    name: "Sarah Mitchell",
-    country: "United Kingdom",
-    flag: "🇬🇧",
-    text: "Impelisa gave us the trip of a lifetime! The Serengeti migration was breathtaking, and our guide Daniel knew every animal by name. Truly world-class service.",
-    trip: "Serengeti Safari, 5 Days",
-    rating: 5,
-    avatar: "SM",
-  },
-  {
-    name: "James & Lisa Kowalski",
-    country: "United States",
-    flag: "🇺🇸",
-    text: "From the moment we landed to departure, everything was flawlessly arranged. The Ngorongoro Crater at dawn — we'll never forget it. Worth every penny!",
-    trip: "Ngorongoro & Zanzibar, 10 Days",
-    rating: 5,
-    avatar: "JK",
-  },
-  {
-    name: "Priya Sharma",
-    country: "India",
-    flag: "🇮🇳",
-    text: "Impelisa's attention to detail is unmatched. Our family safari with two kids was managed perfectly — safe, exciting, and deeply educational.",
-    trip: "Family Safari, 7 Days",
-    rating: 5,
-    avatar: "PS",
-  },
-];
+"use client";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function TestimonialsSection() {
+  const { t } = useLanguage();
+  const testimonials = [
+    {
+      name: "Sarah Mitchell",
+      country: "United Kingdom",
+      flag: "🇬🇧",
+      text: t.testimonials.t1,
+      trip: t.testimonials.t1Trip,
+      rating: 5,
+      avatar: "SM",
+    },
+    {
+      name: "James & Lisa Kowalski",
+      country: "United States",
+      flag: "🇺🇸",
+      text: t.testimonials.t2,
+      trip: t.testimonials.t2Trip,
+      rating: 5,
+      avatar: "JK",
+    },
+    {
+      name: "Priya Sharma",
+      country: "India",
+      flag: "🇮🇳",
+      text: t.testimonials.t3,
+      trip: t.testimonials.t3Trip,
+      rating: 5,
+      avatar: "PS",
+    },
+  ];
+
   return (
-    <section className="bg-[#0A0A0A] py-20 relative overflow-hidden">
+    <section className="bg-[var(--bg)] py-20 relative overflow-hidden">
       {/* Decorative bg */}
       <div className="absolute inset-0 opacity-5">
         <div
@@ -44,9 +48,9 @@ export default function TestimonialsSection() {
 
       <div className="max-w-[1320px] mx-auto px-6 relative z-10">
         <div className="text-center max-w-xl mx-auto mb-12">
-          <p className="section-label mb-2">Traveler Stories</p>
+          <p className="section-label mb-2">{t.testimonials.label}</p>
           <h2 className="text-3xl lg:text-4xl font-bold text-white">
-            What Our Guests Say
+            {t.testimonials.title}
           </h2>
         </div>
 
@@ -54,7 +58,7 @@ export default function TestimonialsSection() {
           {testimonials.map((t) => (
             <div
               key={t.name}
-              className="bg-[var(--dark-3)] border border-white/8 rounded-xl p-7 card-hover relative"
+              className="bg-[var(--bg-3)] border border-white/8 rounded-xl p-7 card-hover relative"
             >
               {/* Quote mark */}
               <div className="text-[var(--gold)]/20 text-7xl font-serif leading-none absolute top-4 right-6 select-none">

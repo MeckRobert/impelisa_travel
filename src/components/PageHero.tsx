@@ -10,7 +10,7 @@ interface PageHeroProps {
 
 export default function PageHero({ label, title, subtitle, imageSrc, imageAlt }: PageHeroProps) {
   return (
-    <section className="relative h-[420px] md:h-[500px] flex items-center overflow-hidden">
+    <section className="on-media relative h-[420px] md:h-[500px] flex items-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <Image
           src={imageSrc}

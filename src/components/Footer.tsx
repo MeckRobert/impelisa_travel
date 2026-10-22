@@ -1,41 +1,42 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import FooterLogin from "@/components/FooterLogin";
-
-const footerLinks = {
-  Destinations: [
-    "Serengeti National Park",
-    "Ngorongoro Crater",
-    "Zanzibar",
-    "Mount Kilimanjaro",
-    "Mikumi National Park",
-    "Lake Manyara",
-  ],
-  "Safari Packages": [
-    "Classic Safaris",
-    "Luxury Safaris",
-    "Family Safaris",
-    "Photography Safaris",
-    "Beach & Safari",
-    "Custom Packages",
-  ],
-  Company: [
-    "About Us",
-    "Our Story",
-    "Meet the Team",
-    "Sustainability",
-    "Blog",
-    "Contact",
-  ],
-};
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
+  const { t } = useLanguage();
+  const footerLinks = {
+    [t.footer.destinations]: [
+      "Serengeti National Park",
+      "Ngorongoro Crater",
+      "Zanzibar",
+      "Mount Kilimanjaro",
+      "Mikumi National Park",
+      "Lake Manyara",
+    ],
+    [t.footer.packages]: [
+      t.footer.classic,
+      t.footer.luxury,
+      t.footer.family,
+      t.footer.photo,
+      t.footer.beach,
+      t.footer.custom,
+    ],
+    [t.footer.company]: [
+      t.footer.about,
+      t.footer.story,
+      t.footer.team,
+      t.footer.sustainability,
+      t.footer.blog,
+      t.footer.contact,
+    ],
+  };
+
   return (
-    <footer className="bg-[#080808] border-t border-white/8">
-      {/* Main footer */}
+    <footer className="bg-[var(--bg-2)] border-t border-[var(--line)]">
       <div className="max-w-[1320px] mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
-          {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-3 mb-5">
               <div className="w-12 h-12 relative">
@@ -50,33 +51,31 @@ export default function Footer() {
                 <div className="text-[var(--gold)] font-bold text-lg tracking-wide uppercase">
                   IMPELISA
                 </div>
-                <div className="text-white/50 text-[0.65rem] tracking-widest uppercase">
+                <div className="text-[var(--fg)]/50 text-[0.65rem] tracking-widest uppercase">
                   Travel &amp; Tours Ltd
                 </div>
               </div>
             </Link>
 
-            <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-xs">
-              Tanzanian-based travel company specializing in safari adventures, beach holidays,
-              cultural experiences and tailor-made tours across East Africa.
+            <p className="text-[var(--fg)]/50 text-sm leading-relaxed mb-6 max-w-xs">
+              {t.footer.blurb}
             </p>
 
-            {/* Contact info */}
             <div className="space-y-3 mb-6">
-              <a href="tel:+255673332743" className="flex items-center gap-3 text-white/60 hover:text-[var(--gold)] transition-colors text-sm">
+              <a href="tel:+255673332743" className="flex items-center gap-3 text-[var(--fg)]/60 hover:text-[var(--gold)] transition-colors text-sm">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.85 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
                 </svg>
                 +255 673 332 743
               </a>
-              <a href="mailto:info@impelisa.co.tz" className="flex items-center gap-3 text-white/60 hover:text-[var(--gold)] transition-colors text-sm">
+              <a href="mailto:info@impelisa.co.tz" className="flex items-center gap-3 text-[var(--fg)]/60 hover:text-[var(--gold)] transition-colors text-sm">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                   <polyline points="22,6 12,13 2,6"/>
                 </svg>
                 info@impelisa.co.tz
               </a>
-              <div className="flex items-center gap-3 text-white/60 text-sm">
+              <div className="flex items-center gap-3 text-[var(--fg)]/60 text-sm">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                   <circle cx="12" cy="10" r="3"/>
@@ -85,13 +84,12 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Social links */}
             <div className="flex gap-3">
               {["facebook", "instagram", "twitter", "youtube"].map((social) => (
                 <a
                   key={social}
                   href="#"
-                  className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-white/50 hover:border-[var(--gold)] hover:text-[var(--gold)] transition-all duration-200"
+                  className="w-9 h-9 rounded-full border border-[var(--line)] flex items-center justify-center text-[var(--fg)]/50 hover:border-[var(--gold)] hover:text-[var(--gold)] transition-all duration-200"
                   aria-label={social}
                 >
                   {social === "facebook" && (
@@ -122,16 +120,15 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Link columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h4 className="text-white font-semibold text-sm mb-5">{title}</h4>
+              <h4 className="text-[var(--fg)] font-semibold text-sm mb-5">{title}</h4>
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link}>
                     <Link
                       href="#"
-                      className="text-white/50 hover:text-[var(--gold)] text-sm transition-colors duration-200"
+                      className="text-[var(--fg)]/50 hover:text-[var(--gold)] text-sm transition-colors duration-200"
                     >
                       {link}
                     </Link>
@@ -143,23 +140,22 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/8 py-5 px-6">
+      <div className="border-t border-[var(--line)] py-5 px-6">
         <div className="max-w-[1320px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/35 text-xs">
-            © 2026 Impelisa Travel &amp; Tours Africa. All rights reserved.
+          <p className="text-[var(--fg)]/35 text-xs">
+            {t.footer.rights}
           </p>
           <div className="flex items-center gap-4">
-            <span className="text-white/35 text-xs tracking-widest uppercase">
-              Explore · Discover · Experience
+            <span className="text-[var(--fg)]/35 text-xs tracking-widest uppercase">
+              {t.footer.tagline}
             </span>
           </div>
           <div className="flex gap-4">
-            <Link href="#" className="text-white/35 hover:text-white/60 text-xs transition-colors">
-              Privacy Policy
+            <Link href="#" className="text-[var(--fg)]/35 hover:text-[var(--fg)]/60 text-xs transition-colors">
+              {t.footer.privacy}
             </Link>
-            <Link href="#" className="text-white/35 hover:text-white/60 text-xs transition-colors">
-              Terms of Service
+            <Link href="#" className="text-[var(--fg)]/35 hover:text-[var(--fg)]/60 text-xs transition-colors">
+              {t.footer.terms}
             </Link>
             <FooterLogin />
           </div>

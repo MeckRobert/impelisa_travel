@@ -106,7 +106,7 @@ export default function SafariPackagesPage() {
       />
 
       {/* Type Filter */}
-      <section className="bg-[var(--dark-2)] border-b border-white/8 sticky top-[72px] z-40">
+      <section className="bg-[var(--bg-2)] border-b border-white/8 sticky top-[72px] z-40">
         <div className="max-w-[1320px] mx-auto px-6 py-4 flex gap-3 overflow-x-auto scrollbar-none">
           {safariTypes.map((type) => (
             <button
@@ -125,7 +125,7 @@ export default function SafariPackagesPage() {
       </section>
 
       {/* Packages Section */}
-      <section className="bg-[var(--dark)] py-16">
+      <section className="bg-[var(--bg)] py-16">
         <div className="max-w-[1320px] mx-auto px-6">
           {/* Sub-header */}
           <div className="flex items-center justify-between mb-10">
@@ -177,7 +177,7 @@ export default function SafariPackagesPage() {
                 </div>
 
                 {/* Content */}
-                <div className="p-5 bg-[var(--dark-3)]">
+                <div className="p-5 bg-[var(--bg-3)]">
                   <h3 className="text-white font-bold text-base leading-snug mb-1">{pkg.title}</h3>
                   <p className="text-white/45 text-xs flex items-center gap-1 mb-3">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
@@ -246,9 +246,9 @@ export default function SafariPackagesPage() {
       </section>
 
       {/* Custom Package CTA */}
-      <section className="bg-[var(--dark-2)] py-16 border-t border-white/8">
+      <section className="bg-[var(--bg-2)] py-16 border-t border-white/8">
         <div className="max-w-[1320px] mx-auto px-6">
-          <div className="rounded-2xl bg-[var(--dark-3)] border border-[var(--gold)]/20 p-10 md:p-14 flex flex-col md:flex-row items-center gap-8">
+          <div className="rounded-2xl bg-[var(--bg-3)] border border-[var(--gold)]/20 p-10 md:p-14 flex flex-col md:flex-row items-center gap-8">
             <div className="flex-1">
               <p className="section-label mb-3">Bespoke Itineraries</p>
               <h2 className="text-3xl font-bold text-white mb-3">

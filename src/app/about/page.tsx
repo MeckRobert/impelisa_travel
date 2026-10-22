@@ -77,7 +77,7 @@ export default function AboutPage() {
       />
 
       {/* Who We Are */}
-      <section className="bg-[var(--dark)] py-20">
+      <section className="bg-[var(--bg)] py-20">
         <div className="max-w-[1320px] mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-14 items-center">
             <div>
@@ -93,7 +93,7 @@ export default function AboutPage() {
               </p>
               <div className="grid grid-cols-3 gap-4 mb-8">
                 {values.map((v) => (
-                  <div key={v.title} className="bg-[var(--dark-3)] rounded-xl p-4 border border-white/8 text-center">
+                  <div key={v.title} className="bg-[var(--bg-3)] rounded-xl p-4 border border-white/8 text-center">
                     <div className="text-2xl mb-2">{v.icon}</div>
                     <div className="text-white font-semibold text-xs leading-snug">{v.title}</div>
                     <div className="text-[var(--gold)] text-[10px] mt-0.5">{v.subtitle}</div>
@@ -147,7 +147,7 @@ export default function AboutPage() {
       </section>
 
       {/* Our Values */}
-      <section className="bg-[var(--dark)] py-16">
+      <section className="bg-[var(--bg)] py-16">
         <div className="max-w-[1320px] mx-auto px-6">
           <div className="text-center mb-12">
             <p className="section-label mb-2">Why Choose Us</p>
@@ -155,7 +155,7 @@ export default function AboutPage() {
           </div>
           <div className="grid sm:grid-cols-3 gap-6">
             {values.map((v) => (
-              <div key={v.title} className="bg-[var(--dark-3)] rounded-2xl p-8 border border-white/8 hover:border-[var(--gold)]/30 transition-colors">
+              <div key={v.title} className="bg-[var(--bg-3)] rounded-2xl p-8 border border-white/8 hover:border-[var(--gold)]/30 transition-colors">
                 <div className="w-14 h-14 rounded-xl bg-[var(--gold)]/10 flex items-center justify-center text-2xl mb-5 border border-[var(--gold)]/20">
                   {v.icon}
                 </div>
@@ -169,7 +169,7 @@ export default function AboutPage() {
       </section>
 
       {/* Meet the Team */}
-      <section className="bg-[var(--dark-2)] py-16 border-t border-white/8">
+      <section className="bg-[var(--bg-2)] py-16 border-t border-white/8">
         <div className="max-w-[1320px] mx-auto px-6">
           <div className="text-center mb-12">
             <p className="section-label mb-2">The People Behind the Magic</p>
@@ -177,7 +177,7 @@ export default function AboutPage() {
           </div>
           <div className="grid sm:grid-cols-3 gap-6">
             {team.map((member) => (
-              <div key={member.name} className="bg-[var(--dark-3)] rounded-2xl p-8 border border-white/8 text-center card-hover">
+              <div key={member.name} className="bg-[var(--bg-3)] rounded-2xl p-8 border border-white/8 text-center card-hover">
                 <div className="w-20 h-20 rounded-full bg-[var(--gold)]/10 border-2 border-[var(--gold)]/30 flex items-center justify-center text-4xl mx-auto mb-4">
                   {member.emoji}
                 </div>
@@ -192,7 +192,7 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="bg-[var(--dark)] py-16 border-t border-white/8">
+      <section className="bg-[var(--bg)] py-16 border-t border-white/8">
         <div className="max-w-[1320px] mx-auto px-6">
           <div className="text-center mb-12">
             <p className="section-label mb-2">Our Journey</p>
@@ -226,7 +226,7 @@ export default function AboutPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 bg-black text-white font-bold px-8 py-3.5 rounded-full hover:bg-[var(--dark-2)] transition-colors"
+            className="inline-flex items-center gap-2 bg-black text-white font-bold px-8 py-3.5 rounded-full hover:bg-[var(--bg-2)] transition-colors"
           >
             Plan Your Trip
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

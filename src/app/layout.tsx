@@ -21,13 +21,19 @@ export const metadata: Metadata = {
   },
 };
 
+const themeBootScript = `(function(){try{var t=localStorage.getItem("impelisa-theme");if(t!=="dark"&&t!=="light")t="light";document.documentElement.setAttribute("data-theme",t);document.documentElement.style.colorScheme=t;var l=localStorage.getItem("impelisa-lang");if(l==="zh")document.documentElement.lang="zh-CN";else if(l==="sw"||l==="fr"||l==="en")document.documentElement.lang=l;}catch(e){}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" data-theme="light" className={inter.variable} suppressHydrationWarning>
+      <head>
+        <meta name="theme-color" content="#F6F3EC" />
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+      </head>
       <body>
         <ClientLayout>{children}</ClientLayout>
       </body>

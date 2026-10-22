@@ -7,10 +7,10 @@ export type Locale = "en" | "zh" | "sw" | "fr";
 export type { Dictionary };
 
 export const LOCALES: { id: Locale; label: string; short: string }[] = [
-  { id: "en", label: "English", short: "EN" },
-  { id: "zh", label: "中文", short: "中文" },
   { id: "sw", label: "Kiswahili", short: "SW" },
+  { id: "en", label: "English", short: "EN" },
   { id: "fr", label: "Français", short: "FR" },
+  { id: "zh", label: "中文", short: "中文" },
 ];
 
 export const dictionaries: Record<Locale, Dictionary> = { en, zh, sw, fr };

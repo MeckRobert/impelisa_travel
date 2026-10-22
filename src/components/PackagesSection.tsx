@@ -1,71 +1,73 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
-
-const packages = [
-  {
-    title: "3 Days Serengeti Safari",
-    location: "Serengeti National Park",
-    days: "3 Days",
-    nights: "2 Nights",
-    price: "$1,200",
-    tag: "Classic Safari",
-    image: "/images/serengeti.jpg",
-    bg: "bg-amber-950/30",
-  },
-  {
-    title: "5 Days Ngorongoro & Tarangire",
-    location: "Ngorongoro & Tarangire",
-    days: "5 Days",
-    nights: "4 Nights",
-    price: "$1,850",
-    tag: "Family Safari",
-    image: "/images/ngorongoro.jpg",
-    bg: "bg-emerald-950/30",
-    featured: true,
-  },
-  {
-    title: "7 Days Zanzibar Beach Escape",
-    location: "Zanzibar",
-    days: "7 Days",
-    nights: "6 Nights",
-    price: "$1,650",
-    tag: "Beach & Safari",
-    image: "/images/zanzibar.jpg",
-    bg: "bg-cyan-950/30",
-  },
-  {
-    title: "8 Days Kilimanjaro Adventure",
-    location: "Mount Kilimanjaro",
-    days: "8 Days",
-    nights: "7 Nights",
-    price: "$2,800",
-    tag: "Luxury Safari",
-    image: "/images/kilimanjaro.jpg",
-    bg: "bg-blue-950/30",
-  },
-];
-
-const safariTypes = [
-  { label: "Classic Safaris", sub: "3–5 Days" },
-  { label: "Luxury Safaris", sub: "5–10 Days" },
-  { label: "Family Safaris", sub: "4–8 Days" },
-  { label: "Photography Safaris", sub: "7–12 Days" },
-  { label: "Beach & Safari", sub: "7–14 Days" },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function PackagesSection() {
+  const { t } = useLanguage();
+  const packages = [
+    {
+      title: t.packagesHome.p1,
+      location: "Serengeti National Park",
+      days: `3 ${t.packagesHome.days}`,
+      nights: `2 ${t.packagesHome.nights}`,
+      price: "$1,200",
+      tag: t.packagesHome.tagClassic,
+      image: "/images/serengeti.jpg",
+      bg: "bg-amber-950/30",
+    },
+    {
+      title: t.packagesHome.p2,
+      location: "Ngorongoro & Tarangire",
+      days: `5 ${t.packagesHome.days}`,
+      nights: `4 ${t.packagesHome.nights}`,
+      price: "$1,850",
+      tag: t.packagesHome.tagFamily,
+      image: "/images/ngorongoro.jpg",
+      bg: "bg-emerald-950/30",
+      featured: true,
+    },
+    {
+      title: t.packagesHome.p3,
+      location: "Zanzibar",
+      days: `7 ${t.packagesHome.days}`,
+      nights: `6 ${t.packagesHome.nights}`,
+      price: "$1,650",
+      tag: t.packagesHome.tagBeach,
+      image: "/images/zanzibar.jpg",
+      bg: "bg-cyan-950/30",
+    },
+    {
+      title: t.packagesHome.p4,
+      location: "Mount Kilimanjaro",
+      days: `8 ${t.packagesHome.days}`,
+      nights: `7 ${t.packagesHome.nights}`,
+      price: "$2,800",
+      tag: t.packagesHome.tagLuxury,
+      image: "/images/kilimanjaro.jpg",
+      bg: "bg-blue-950/30",
+    },
+  ];
+
+  const safariTypes = [
+    { label: t.packagesHome.classic, sub: t.packagesHome.days35 },
+    { label: t.packagesHome.luxury, sub: t.packagesHome.days510 },
+    { label: t.packagesHome.family, sub: t.packagesHome.days48 },
+    { label: t.packagesHome.photo, sub: t.packagesHome.days712 },
+    { label: t.packagesHome.beach, sub: t.packagesHome.days714 },
+  ];
+
   return (
-    <section className="bg-[var(--dark)] py-20">
+    <section className="bg-[var(--bg)] py-20">
       <div className="max-w-[1320px] mx-auto px-6">
         {/* Header */}
         <div className="text-center max-w-xl mx-auto mb-12">
-          <p className="section-label mb-2">Tailor-Made Journeys</p>
+          <p className="section-label mb-2">{t.packagesHome.label}</p>
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-3">
-            Safari Packages
+            {t.packagesHome.title}
           </h2>
           <p className="text-white/55 text-sm leading-relaxed">
-            Choose from our carefully crafted safari packages or let us create
-            a custom itinerary just for you.
+            {t.packagesHome.body}
           </p>
         </div>
 
@@ -88,12 +90,12 @@ export default function PackagesSection() {
 
         {/* Section sub-header */}
         <div className="flex items-center justify-between mb-8">
-          <h3 className="text-lg font-semibold text-white">Featured Safari Packages</h3>
+          <h3 className="text-lg font-semibold text-white">{t.packagesHome.featured}</h3>
           <Link
             href="/safari-packages"
             className="flex items-center gap-1.5 text-[var(--gold)] text-sm font-semibold hover:gap-2.5 transition-all"
           >
-            View All Packages
+            {t.packagesHome.viewAll}
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
@@ -114,7 +116,7 @@ export default function PackagesSection() {
               {/* Featured badge */}
               {pkg.featured && (
                 <div className="absolute top-3 right-3 z-10 bg-[var(--gold)] text-black text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
-                  Popular
+                  {t.packagesHome.popular}
                 </div>
               )}
 
@@ -136,7 +138,7 @@ export default function PackagesSection() {
               </div>
 
               {/* Content */}
-              <div className="p-5 bg-[var(--dark-3)]">
+              <div className="p-5 bg-[var(--bg-3)]">
                 <span className="text-[var(--gold)] text-[10px] font-bold tracking-widest uppercase">
                   {pkg.tag}
                 </span>
@@ -172,13 +174,13 @@ export default function PackagesSection() {
                 <div className="flex items-center justify-between">
                   <div>
                     <span className="text-[var(--gold)] font-bold text-lg">{pkg.price}</span>
-                    <span className="text-white/40 text-xs ml-1">/ person</span>
+                    <span className="text-white/40 text-xs ml-1">{t.packagesHome.person}</span>
                   </div>
                   <Link
                     href="/safari-packages"
                     className="flex items-center gap-1.5 text-sm font-semibold text-white bg-white/10 hover:bg-[var(--gold)] hover:text-black px-4 py-2 rounded-lg transition-all duration-200"
                   >
-                    View Details
+                    {t.packagesHome.viewDetails}
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>

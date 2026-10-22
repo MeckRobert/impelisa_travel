@@ -100,7 +100,7 @@ export default function BlogPage() {
       />
 
       {/* Category Filter */}
-      <section className="bg-[var(--dark-2)] border-b border-white/8 sticky top-[72px] z-40">
+      <section className="bg-[var(--bg-2)] border-b border-white/8 sticky top-[72px] z-40">
         <div className="max-w-[1320px] mx-auto px-6 py-4 flex items-center gap-3 overflow-x-auto scrollbar-none">
           {categories.map((cat) => (
             <button
@@ -119,7 +119,7 @@ export default function BlogPage() {
             <input
               type="text"
               placeholder="Search articles..."
-              className="bg-[var(--dark-3)] border border-white/10 rounded-full px-4 py-2 text-sm text-white/70 placeholder:text-white/30 outline-none focus:border-[var(--gold)] pr-10 w-48 transition-all"
+              className="bg-[var(--bg-3)] border border-white/10 rounded-full px-4 py-2 text-sm text-white/70 placeholder:text-white/30 outline-none focus:border-[var(--gold)] pr-10 w-48 transition-all"
             />
             <svg
               className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30"
@@ -138,7 +138,7 @@ export default function BlogPage() {
       </section>
 
       {/* Blog Content */}
-      <section className="bg-[var(--dark)] py-16">
+      <section className="bg-[var(--bg)] py-16">
         <div className="max-w-[1320px] mx-auto px-6">
           {/* Featured Post */}
           <div className="mb-14">
@@ -155,7 +155,7 @@ export default function BlogPage() {
                   {featuredPost.category}
                 </span>
               </div>
-              <div className="p-8 md:p-10 bg-[var(--dark-3)] flex flex-col justify-center">
+              <div className="p-8 md:p-10 bg-[var(--bg-3)] flex flex-col justify-center">
                 <div className="flex items-center gap-2 text-white/40 text-xs mb-4">
                   <span>{featuredPost.date}</span>
                   <span>·</span>
@@ -191,7 +191,7 @@ export default function BlogPage() {
             {posts.map((post) => (
               <article
                 key={post.title}
-                className="rounded-xl overflow-hidden border border-white/8 card-hover group bg-[var(--dark-3)]"
+                className="rounded-xl overflow-hidden border border-white/8 card-hover group bg-[var(--bg-3)]"
               >
                 <div className="relative h-44 overflow-hidden">
                   <img
@@ -246,7 +246,7 @@ export default function BlogPage() {
       </section>
 
       {/* Newsletter */}
-      <section className="bg-[var(--dark-2)] py-14 border-t border-white/8">
+      <section className="bg-[var(--bg-2)] py-14 border-t border-white/8">
         <div className="max-w-[1320px] mx-auto px-6 text-center">
           <p className="section-label mb-3">Stay Updated</p>
           <h2 className="text-3xl font-bold text-white mb-3">

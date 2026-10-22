@@ -4,36 +4,17 @@ import PageHero from "@/components/PageHero";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 import Link from "next/link";
-
-const services = [
-  "Safari Packages",
-  "Beach Holiday",
-  "Cultural Tours",
-  "Mountain Climbing",
-  "Photography Tour",
-  "Custom Itinerary",
-];
-
-const faqs = [
-  {
-    q: "What is the best time to visit Tanzania?",
-    a: "Tanzania is great year-round, but the dry seasons (June–October and January–February) are ideal for game viewing and the Great Migration in the Serengeti.",
-  },
-  {
-    q: "Do I need a visa to visit Tanzania?",
-    a: "Most nationalities require a visa. You can obtain a single-entry tourist visa on arrival at major airports and borders, or apply online via the Tanzania immigration portal.",
-  },
-  {
-    q: "Are your safaris suitable for children?",
-    a: "Yes! We offer family-friendly safaris with age-appropriate activities, shorter game drives, and carefully selected family lodges for all age groups.",
-  },
-  {
-    q: "What's included in your safari packages?",
-    a: "Our packages typically include all accommodation, meals, park fees, a certified guide, and transport. Flights and optional activities can be arranged on request.",
-  },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function ContactPage() {
+  const { t } = useLanguage();
+  const services = [t.contactPage.s1, t.contactPage.s2, t.contactPage.s3, t.contactPage.s4, t.contactPage.s5, t.contactPage.s6];
+  const faqs = [
+    { q: t.contactPage.q1, a: t.contactPage.a1 },
+    { q: t.contactPage.q2, a: t.contactPage.a2 },
+    { q: t.contactPage.q3, a: t.contactPage.a3 },
+    { q: t.contactPage.q4, a: t.contactPage.a4 },
+  ];
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [form, setForm] = useState({
     fullName: "",
@@ -55,23 +36,23 @@ export default function ContactPage() {
     <main>
       <Navbar />
       <PageHero
-        label="Get in Touch"
-        title="Contact Us"
-        subtitle="We are here to help you plan your perfect trip. Reach out to us anytime."
+        label={t.contactPage.label}
+        title={t.contactPage.title}
+        subtitle={t.contactPage.subtitle}
         imageSrc="/images/zanzibar.jpg"
         imageAlt="Zanzibar beach for contact page"
       />
 
       {/* Main contact section */}
-      <section className="bg-[var(--dark)] py-16">
+      <section className="bg-[var(--bg)] py-16">
         <div className="max-w-[1320px] mx-auto px-6">
           <div className="grid lg:grid-cols-5 gap-10">
             {/* Contact Form – left (3 cols) */}
             <div className="lg:col-span-3">
-              <div className="bg-[var(--dark-3)] rounded-2xl p-8 border border-white/8">
-                <p className="section-label mb-2">Send Us a Message</p>
+              <div className="bg-[var(--bg-3)] rounded-2xl p-8 border border-white/8">
+                <p className="section-label mb-2">{t.contactPage.send}</p>
                 <h2 className="text-2xl font-bold text-white mb-6">
-                  Plan Your Perfect Trip
+                  {t.contactPage.plan}
                 </h2>
 
                 {submitted && (
@@ -79,7 +60,7 @@ export default function ContactPage() {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
-                    Message sent! We&apos;ll get back to you within 24 hours.
+                    {t.contactPage.sent}
                   </div>
                 )}
 
@@ -87,7 +68,7 @@ export default function ContactPage() {
                   {/* Full Name */}
                   <div>
                     <label className="block text-white/60 text-xs font-semibold tracking-wider uppercase mb-1.5">
-                      Full Name *
+                      {t.contactPage.name}
                     </label>
                     <input
                       id="contact-name"
@@ -188,7 +169,7 @@ export default function ContactPage() {
             {/* Contact Info – right (2 cols) */}
             <div className="lg:col-span-2 space-y-5">
               {/* Info card */}
-              <div className="bg-[var(--dark-3)] rounded-2xl p-7 border border-white/8">
+              <div className="bg-[var(--bg-3)] rounded-2xl p-7 border border-white/8">
                 <p className="section-label mb-4">Contact Information</p>
                 <div className="space-y-5">
                   <a
@@ -309,7 +290,7 @@ export default function ContactPage() {
       </section>
 
       {/* FAQ */}
-      <section className="bg-[var(--dark-2)] py-16 border-t border-white/8">
+      <section className="bg-[var(--bg-2)] py-16 border-t border-white/8">
         <div className="max-w-[1320px] mx-auto px-6">
           <div className="text-center mb-10">
             <p className="section-label mb-2">Common Questions</p>
@@ -319,7 +300,7 @@ export default function ContactPage() {
             {faqs.map((faq, i) => (
               <div
                 key={faq.q}
-                className="bg-[var(--dark-3)] rounded-xl border border-white/8 overflow-hidden"
+                className="bg-[var(--bg-3)] rounded-xl border border-white/8 overflow-hidden"
               >
                 <button
                   id={`faq-${i}`}

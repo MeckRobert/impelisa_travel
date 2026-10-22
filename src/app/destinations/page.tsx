@@ -1,100 +1,96 @@
+"use client";
 import Navbar from "@/components/Navbar";
 import PageHero from "@/components/PageHero";
 import Footer from "@/components/Footer";
 import TripPlannerButton from "@/components/TripPlannerButton";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Top Destinations | Impelisa Travel & Tours Africa",
-  description:
-    "Discover Africa's most breathtaking destinations – Serengeti, Zanzibar, Mount Kilimanjaro, Ngorongoro Crater, and more. Explore with Impelisa Travel & Tours Africa.",
-};
-
-const categories = [
-  { label: "All Destinations", active: true },
-  { label: "National Parks" },
-  { label: "Beaches" },
-  { label: "Mountains" },
-  { label: "Cultural Sites" },
-];
-
-const destinations = [
-  {
-    name: "Mount Kilimanjaro",
-    location: "Tanzania",
-    image: "/images/kilimanjaro.jpg",
-    tag: "Mountain",
-    duration: "7–9 Days",
-    price: "From $2,800",
-    desc: "Conquer Africa's highest peak and experience panoramic views that stretch beyond imagination.",
-    featured: true,
-  },
-  {
-    name: "Serengeti National Park",
-    location: "Tanzania",
-    image: "/images/serengeti.jpg",
-    tag: "National Park",
-    duration: "3–7 Days",
-    price: "From $1,200",
-    desc: "Witness the world-famous Great Migration and encounter the Big Five in their natural habitat.",
-    featured: true,
-  },
-  {
-    name: "Zanzibar",
-    location: "Tanzania",
-    image: "/images/zanzibar.jpg",
-    tag: "Beach",
-    duration: "5–10 Days",
-    price: "From $1,650",
-    desc: "Relax on pristine white-sand beaches, explore Stone Town's spice markets and turquoise waters.",
-    featured: false,
-  },
-  {
-    name: "Ngorongoro Crater",
-    location: "Tanzania",
-    image: "/images/ngorongoro.jpg",
-    tag: "National Park",
-    duration: "2–4 Days",
-    price: "From $950",
-    desc: "Descend into the world's largest intact volcanic caldera teeming with extraordinary wildlife.",
-    featured: false,
-  },
-  {
-    name: "Mikumi National Park",
-    location: "Tanzania",
-    image: "/images/mikumi.jpg",
-    tag: "National Park",
-    duration: "2–5 Days",
-    price: "From $800",
-    desc: "Tanzania's most accessible park – abundant elephants, lions, and giraffes await.",
-    featured: false,
-  },
-  {
-    name: "Lake Manyara",
-    location: "Tanzania",
-    image: "/images/serengeti.jpg",
-    tag: "National Park",
-    duration: "1–3 Days",
-    price: "From $600",
-    desc: "Famous for its tree-climbing lions and vast flocks of pink flamingos on a soda lake.",
-    featured: false,
-  },
-];
+import { useLanguage } from "@/context/LanguageContext";
+import { interpolate } from "@/i18n";
 
 export default function DestinationsPage() {
+  const { t } = useLanguage();
+  const categories = [
+    { label: t.destPage.all, active: true },
+    { label: t.destPage.parks },
+    { label: t.destPage.beaches },
+    { label: t.destPage.mountains },
+    { label: t.destPage.culture },
+  ];
+  const destinations = [
+    {
+      name: "Mount Kilimanjaro",
+      location: "Tanzania",
+      image: "/images/kilimanjaro.jpg",
+      tag: t.destPage.mountain,
+      duration: "7–9 Days",
+      price: `${t.destPage.from} $2,800`,
+      desc: t.destPage.d1desc,
+      featured: true,
+    },
+    {
+      name: "Serengeti National Park",
+      location: "Tanzania",
+      image: "/images/serengeti.jpg",
+      tag: t.destPage.park,
+      duration: "3–7 Days",
+      price: `${t.destPage.from} $1,200`,
+      desc: t.destPage.d2desc,
+      featured: true,
+    },
+    {
+      name: "Zanzibar",
+      location: "Tanzania",
+      image: "/images/zanzibar.jpg",
+      tag: t.destPage.beach,
+      duration: "5–10 Days",
+      price: `${t.destPage.from} $1,650`,
+      desc: t.destPage.d3desc,
+      featured: false,
+    },
+    {
+      name: "Ngorongoro Crater",
+      location: "Tanzania",
+      image: "/images/ngorongoro.jpg",
+      tag: t.destPage.park,
+      duration: "2–4 Days",
+      price: `${t.destPage.from} $950`,
+      desc: t.destPage.d4desc,
+      featured: false,
+    },
+    {
+      name: "Mikumi National Park",
+      location: "Tanzania",
+      image: "/images/mikumi.jpg",
+      tag: t.destPage.park,
+      duration: "2–5 Days",
+      price: `${t.destPage.from} $800`,
+      desc: t.destPage.d5desc,
+      featured: false,
+    },
+    {
+      name: "Lake Manyara",
+      location: "Tanzania",
+      image: "/images/serengeti.jpg",
+      tag: t.destPage.park,
+      duration: "1–3 Days",
+      price: `${t.destPage.from} $600`,
+      desc: t.destPage.d6desc,
+      featured: false,
+    },
+  ];
+
   return (
     <main>
       <Navbar />
       <PageHero
-        label="Explore · Discover · Experience"
-        title="Top Destinations"
-        subtitle="Discover Africa's most breathtaking places, from iconic national parks to pristine beaches and majestic mountains."
+        label={t.destPage.label}
+        title={t.destPage.title}
+        subtitle={t.destPage.subtitle}
         imageSrc="/images/hero-safari.png"
         imageAlt="African safari landscape"
       />
 
       {/* Category Filter */}
-      <section className="bg-[var(--dark-2)] border-b border-white/8 sticky top-[72px] z-40">
+      <section className="bg-[var(--bg-2)] border-b border-white/8 sticky top-[72px] z-40">
         <div className="max-w-[1320px] mx-auto px-6 py-4 flex gap-3 overflow-x-auto scrollbar-none">
           {categories.map((cat) => (
             <button
@@ -112,16 +108,16 @@ export default function DestinationsPage() {
       </section>
 
       {/* Destinations Grid */}
-      <section className="bg-[var(--dark)] py-16">
+      <section className="bg-[var(--bg)] py-16">
         <div className="max-w-[1320px] mx-auto px-6">
           <div className="flex items-center justify-between mb-10">
             <div>
-              <p className="section-label mb-1">Tanzania & East Africa</p>
+              <p className="section-label mb-1">{t.destPage.region}</p>
               <h2 className="text-2xl font-bold text-white">
-                {destinations.length} Destinations
+                {interpolate(t.destPage.count, { n: destinations.length })}
               </h2>
             </div>
-            <span className="text-white/40 text-sm">Sorted by popularity</span>
+            <span className="text-white/40 text-sm">{t.destPage.sorted}</span>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -142,13 +138,13 @@ export default function DestinationsPage() {
                   <div className="absolute inset-0 gradient-overlay" />
                   {dest.featured && (
                     <span className="absolute top-3 left-3 bg-[var(--gold)] text-black text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
-                      Featured
+                      {t.destPage.featured}
                     </span>
                   )}
                   <span className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-white/80 text-[10px] font-semibold px-2.5 py-1 rounded-full uppercase tracking-wide">
                     {dest.tag}
                   </span>
-                  <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+                  <div className="on-media absolute bottom-4 left-4 right-4 flex items-end justify-between">
                     <div>
                       <h3 className="text-white font-bold text-lg leading-tight">{dest.name}</h3>
                       <p className="text-white/65 text-xs flex items-center gap-1 mt-0.5">
@@ -167,7 +163,7 @@ export default function DestinationsPage() {
                 </div>
 
                 {/* Body */}
-                <div className="p-5 bg-[var(--dark-3)]">
+                <div className="p-5 bg-[var(--bg-3)]">
                   <p className="text-white/55 text-sm leading-relaxed mb-4">{dest.desc}</p>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3 text-xs text-white/50">
@@ -186,7 +182,7 @@ export default function DestinationsPage() {
                     </div>
                   </div>
                   <TripPlannerButton className="mt-4 w-full flex items-center justify-center gap-2 text-sm font-semibold bg-white/8 hover:bg-[var(--gold)] hover:text-black text-white py-2.5 rounded-lg transition-all duration-200">
-                    Explore This Destination
+                    {t.destPage.explore}
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
@@ -199,15 +195,15 @@ export default function DestinationsPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[var(--dark-2)] py-16 border-t border-white/8">
+      <section className="bg-[var(--bg-2)] py-16 border-t border-white/8">
         <div className="max-w-[1320px] mx-auto px-6 text-center">
-          <p className="section-label mb-3">Custom Itineraries</p>
-          <h2 className="text-3xl font-bold text-white mb-4">Can&apos;t Find Your Dream Destination?</h2>
+          <p className="section-label mb-3">{t.destPage.customLabel}</p>
+          <h2 className="text-3xl font-bold text-white mb-4">{t.destPage.customTitle}</h2>
           <p className="text-white/55 text-sm max-w-lg mx-auto mb-8 leading-relaxed">
-            Our expert guides can craft a bespoke safari experience tailored exactly to your interests, timeline, and budget.
+            {t.destPage.customBody}
           </p>
           <TripPlannerButton className="btn-gold">
-            Plan a Custom Trip
+            {t.destPage.customCta}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>

@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function FooterLogin() {
+  const { t } = useLanguage();
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -26,9 +28,9 @@ export default function FooterLogin() {
   return (
     <Link
       href="/admin/login"
-      className="rounded-full border border-white/20 px-3 py-1 text-xs text-white/60 transition-colors hover:border-[var(--gold)] hover:text-[var(--gold)]"
+      className="rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--fg)]/60 transition-colors hover:border-[var(--gold)] hover:text-[var(--gold)]"
     >
-      Login
+      {t.footer.login}
     </Link>
   );
 }
