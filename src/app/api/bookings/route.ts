@@ -23,6 +23,37 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const dateOnly = /^\d{4}-\d{2}-\d{2}$/;
+    const earliestAllowed = new Date();
+    earliestAllowed.setUTCHours(0, 0, 0, 0);
+    earliestAllowed.setUTCDate(earliestAllowed.getUTCDate() - 1);
+
+    const isOnOrAfterToday = (value: string) => {
+      if (!dateOnly.test(value)) return false;
+      return new Date(`${value}T00:00:00Z`) >= earliestAllowed;
+    };
+
+    if (startDate && !isOnOrAfterToday(startDate)) {
+      return NextResponse.json(
+        { success: false, error: "Start date cannot be before today." },
+        { status: 400 }
+      );
+    }
+
+    if (endDate && !isOnOrAfterToday(endDate)) {
+      return NextResponse.json(
+        { success: false, error: "End date cannot be before today." },
+        { status: 400 }
+      );
+    }
+
+    if (startDate && endDate && endDate < startDate) {
+      return NextResponse.json(
+        { success: false, error: "End date cannot be before the start date." },
+        { status: 400 }
+      );
+    }
+
     const result = await pool.query(
       `INSERT INTO bookings
          (full_name, email, phone, destination, start_date, end_date, num_travellers, budget)

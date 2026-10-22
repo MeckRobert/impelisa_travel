@@ -23,6 +23,15 @@ const budgets = [
   "Custom Budget",
 ];
 
+/** Local calendar date as YYYY-MM-DD so the picker cannot go before today. */
+function todayISODate() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
 export default function TripPlannerModal() {
   const { isOpen, closeModal, preFill } = useTripPlanner();
 
@@ -39,13 +48,21 @@ export default function TripPlannerModal() {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [minDate, setMinDate] = useState("");
+
+  /* Calendar must start from today — past days cannot be selected. */
+  useEffect(() => {
+    setMinDate(todayISODate());
+  }, []);
 
   /* Pre-fill fields from hero card */
   useEffect(() => {
     if (isOpen) {
+      const today = todayISODate();
+      setMinDate(today);
       if (preFill.destination) setDestination(preFill.destination);
-      if (preFill.startDate) setStartDate(preFill.startDate);
-      if (preFill.endDate) setEndDate(preFill.endDate);
+      if (preFill.startDate && preFill.startDate >= today) setStartDate(preFill.startDate);
+      if (preFill.endDate && preFill.endDate >= today) setEndDate(preFill.endDate);
       if (preFill.numTravellers) setNumTravellers(preFill.numTravellers);
       setTimeout(() => setMounted(true), 10);
     } else {
@@ -324,13 +341,21 @@ export default function TripPlannerModal() {
                       <input
                         type="date"
                         value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
+                        min={minDate}
+                        onChange={(e) => {
+                          const nextStart = e.target.value;
+                          setStartDate(nextStart);
+                          if (endDate && nextStart && endDate < nextStart) {
+                            setEndDate("");
+                          }
+                        }}
                         className="bg-transparent outline-none text-sm text-white/70 flex-1 min-w-0 [color-scheme:dark]"
                       />
                       <span className="text-white/20 text-sm">→</span>
                       <input
                         type="date"
                         value={endDate}
+                        min={startDate || minDate}
                         onChange={(e) => setEndDate(e.target.value)}
                         className="bg-transparent outline-none text-sm text-white/70 flex-1 min-w-0 [color-scheme:dark]"
                       />

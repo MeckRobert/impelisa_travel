@@ -32,6 +32,13 @@ export default function BookingsPage() {
   const [modal, setModal] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const today = useMemo(() => {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }, []);
 
   async function load() {
     const params = new URLSearchParams();
@@ -196,8 +203,8 @@ export default function BookingsPage() {
               ))}
             </select>
             <div className="grid grid-cols-2 gap-3">
-              <input name="startDate" type="date" className="rounded-lg border px-3 py-2 text-sm" />
-              <input name="endDate" type="date" className="rounded-lg border px-3 py-2 text-sm" />
+              <input name="startDate" type="date" min={today} className="rounded-lg border px-3 py-2 text-sm" />
+              <input name="endDate" type="date" min={today} className="rounded-lg border px-3 py-2 text-sm" />
             </div>
             <div className="grid grid-cols-3 gap-3">
               <input name="numTravellers" placeholder="Travellers" className="rounded-lg border px-3 py-2 text-sm" />
