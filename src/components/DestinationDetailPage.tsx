@@ -93,7 +93,7 @@ export default function DestinationDetailPage({ config }: { config: DestinationC
       {/* ── STATS BAR ─────────────────────────────────────────── */}
       <section className="bg-[var(--bg-2)] border-b border-white/8 sticky top-[72px] z-30">
         <div className="max-w-[1320px] mx-auto px-6 py-4">
-          <div className="flex flex-wrap gap-x-8 gap-y-3 items-center">
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 items-center">
             {/* Duration */}
             <div className="flex items-center gap-2 text-sm">
               <svg className="text-[var(--gold)] shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -118,10 +118,7 @@ export default function DestinationDetailPage({ config }: { config: DestinationC
               <span className="text-white/50">{ui.difficulty}:</span>
               <span className={`font-semibold ${difficultyColor[dk]}`}>{dest.difficulty}</span>
             </div>
-            {/* Price */}
-            <div className="ml-auto text-[var(--gold)] font-bold text-base">
-              {dest.price}
-            </div>
+            
           </div>
         </div>
       </section>
@@ -141,10 +138,6 @@ export default function DestinationDetailPage({ config }: { config: DestinationC
               <InfoRow icon="" label={ui.duration} value={dest.duration} />
               <InfoRow icon="" label={ui.bestTime} value={dest.bestTime} />
               <InfoRow icon="" label={ui.difficulty} value={dest.difficulty} highlight />
-                <div className="pt-4 border-t border-white/8">
-                  <p className="text-white/40 text-xs mb-1">Starting from</p>
-                  <p className="text-[var(--gold)] font-bold text-xl">{dest.price}</p>
-                </div>
               <TripPlannerButton className="w-full flex items-center justify-center gap-2 text-sm font-semibold bg-[var(--gold)] hover:brightness-110 text-black py-3 rounded-xl transition-all duration-200 mt-2">
                 {ui.bookNow}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
