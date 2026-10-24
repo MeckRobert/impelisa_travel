@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useTripPlanner } from "@/context/TripPlannerContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 const destinations = [
   "Serengeti National Park",
@@ -11,8 +12,6 @@ const destinations = [
   "Lake Manyara",
   "Ruaha National Park",
 ];
-
-const travellers = ["1 Traveller", "2 Travellers", "3–4 Travellers", "5+ Travellers"];
 
 const budgets = [
   "Under $1,000",
@@ -34,6 +33,9 @@ function todayISODate() {
 
 export default function TripPlannerModal() {
   const { isOpen, closeModal, preFill } = useTripPlanner();
+  const { t } = useLanguage();
+
+  const travellers = [t.planner.t1, t.planner.t2, t.planner.t34, t.planner.t5];
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -41,7 +43,7 @@ export default function TripPlannerModal() {
   const [destination, setDestination] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [numTravellers, setNumTravellers] = useState("2 Travellers");
+  const [numTravellers, setNumTravellers] = useState("");
   const [budget, setBudget] = useState("");
 
   const [confirmed, setConfirmed] = useState(false);
@@ -54,6 +56,14 @@ export default function TripPlannerModal() {
   useEffect(() => {
     setMinDate(todayISODate());
   }, []);
+
+  /* Set default traveller when translations load */
+  useEffect(() => {
+    if (!numTravellers && travellers[1]) {
+      setNumTravellers(travellers[1]);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [t]);
 
   /* Pre-fill fields from hero card */
   useEffect(() => {
@@ -76,7 +86,7 @@ export default function TripPlannerModal() {
         setDestination("");
         setStartDate("");
         setEndDate("");
-        setNumTravellers("2 Travellers");
+        setNumTravellers(travellers[1] ?? "");
         setBudget("");
       }, 300);
     }
@@ -132,7 +142,7 @@ export default function TripPlannerModal() {
       className="fixed inset-0 z-[999] flex items-center justify-center px-4 py-8"
       role="dialog"
       aria-modal="true"
-      aria-label="Plan Your Trip"
+      aria-label={t.planner.aria}
     >
       {/* Backdrop */}
       <div
@@ -167,17 +177,16 @@ export default function TripPlannerModal() {
               </svg>
             </div>
 
-            <p className="section-label mb-3">Booking Received</p>
-            <h2 className="text-2xl font-bold text-white mb-3">Thank You!</h2>
+            <p className="section-label mb-3">{t.planner.received}</p>
+            <h2 className="text-2xl font-bold text-white mb-3">{t.planner.thanks}</h2>
             <p className="text-white/60 text-sm leading-relaxed max-w-xs">
-              Our team will contact you soon to confirm your perfect trip.
-              We typically respond within{" "}
-              <span className="text-[var(--gold)] font-semibold">2–4 hours</span>.
+              {t.planner.confirmBody}{" "}
+              <span className="text-[var(--gold)] font-semibold">{t.planner.hours}</span>.
             </p>
 
             <div className="mt-8 w-full max-w-xs">
               <button onClick={closeModal} className="btn-gold w-full justify-center text-sm py-3">
-                Close
+                {t.planner.close}
               </button>
             </div>
 
@@ -210,17 +219,17 @@ export default function TripPlannerModal() {
                 </div>
                 <div>
                   <h2 className="text-white font-bold text-lg leading-tight">
-                    Find Your Perfect Trip
+                    {t.planner.title}
                   </h2>
                   <p className="text-white/45 text-xs mt-0.5">
-                    Fill in your details and we&apos;ll craft your ideal itinerary
+                    {t.planner.subtitle}
                   </p>
                 </div>
               </div>
               <button
                 onClick={closeModal}
                 className="text-white/40 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/8 ml-3 shrink-0"
-                aria-label="Close modal"
+                aria-label={t.planner.close}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6 6 18M6 6l12 12" />
@@ -235,16 +244,15 @@ export default function TripPlannerModal() {
                 {/* ── CONTACT DETAILS SECTION ── */}
                 <div className="pb-1">
                   <p className="text-[var(--gold)] text-[10px] font-bold tracking-[0.18em] uppercase mb-3">
-                    Contact Details
+                    {t.planner.contact}
                   </p>
 
                   {/* Full Name */}
                   <div className="mb-3">
                     <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
-                      Full Name
+                      {t.planner.fullName}
                     </label>
                     <div className="relative">
-                                            
                       <input
                         type="text"
                         value={fullName}
@@ -258,10 +266,9 @@ export default function TripPlannerModal() {
                   {/* Email */}
                   <div className="mb-3">
                     <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
-                      Email Address <span className="text-[var(--gold)]">*</span>
+                      {t.planner.email} <span className="text-[var(--gold)]">*</span>
                     </label>
                     <div className="relative">
-                      
                       <input
                         type="email"
                         required
@@ -276,7 +283,7 @@ export default function TripPlannerModal() {
                   {/* Phone */}
                   <div>
                     <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
-                      Phone Number <span className="text-[var(--gold)]">*</span>
+                      {t.planner.phone} <span className="text-[var(--gold)]">*</span>
                     </label>
                     <div className="relative">
                       <input
@@ -297,23 +304,22 @@ export default function TripPlannerModal() {
                 {/* ── TRIP DETAILS SECTION ── */}
                 <div className="pb-1">
                   <p className="text-[var(--gold)] text-[10px] font-bold tracking-[0.18em] uppercase mb-3">
-                    Trip Details
+                    {t.planner.trip}
                   </p>
 
                   {/* Destination */}
                   <div className="mb-3">
                     <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
-                      Destination <span className="text-[var(--gold)]">*</span>
+                      {t.planner.destination} <span className="text-[var(--gold)]">*</span>
                     </label>
                     <div className="relative">
-                      
                       <select
                         required
                         value={destination}
                         onChange={(e) => setDestination(e.target.value)}
                         className="input-dark pl-9 pr-8 text-sm cursor-pointer"
                       >
-                        <option value="">Select destination</option>
+                        <option value="">{t.planner.selectDestination}</option>
                         {destinations.map((d) => (
                           <option key={d} value={d}>{d}</option>
                         ))}
@@ -329,15 +335,9 @@ export default function TripPlannerModal() {
                   {/* Travel Dates */}
                   <div className="mb-3">
                     <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
-                      Travel Dates
+                      {t.planner.dates}
                     </label>
                     <div className="flex items-center gap-2 bg-[var(--dark-3)] rounded-lg border border-white/10 px-3 py-2.5 focus-within:border-[var(--gold)] transition-colors">
-                      {/* <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                        <line x1="16" y1="2" x2="16" y2="6" />
-                        <line x1="8" y1="2" x2="8" y2="6" />
-                        <line x1="3" y1="10" x2="21" y2="10" />
-                      </svg> */}
                       <input
                         type="date"
                         value={startDate}
@@ -365,17 +365,16 @@ export default function TripPlannerModal() {
                   {/* Number of Travellers */}
                   <div className="mb-3">
                     <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
-                      Number of Travellers
+                      {t.planner.travellers}
                     </label>
                     <div className="relative">
-                      
                       <select
                         value={numTravellers}
                         onChange={(e) => setNumTravellers(e.target.value)}
                         className="input-dark pl-9 pr-8 text-sm cursor-pointer"
                       >
-                        {travellers.map((t) => (
-                          <option key={t} value={t}>{t}</option>
+                        {travellers.map((tv) => (
+                          <option key={tv} value={tv}>{tv}</option>
                         ))}
                       </select>
                       <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/35">
@@ -389,18 +388,16 @@ export default function TripPlannerModal() {
                   {/* Budget */}
                   <div>
                     <label className="block text-white/55 text-[11px] font-semibold tracking-wider uppercase mb-1.5">
-                      Your Budget <span className="text-[var(--gold)]">*</span>
+                      {t.planner.budget} <span className="text-[var(--gold)]">*</span>
                     </label>
                     <div className="relative">
-                      
-                      
                       <select
                         required
                         value={budget}
                         onChange={(e) => setBudget(e.target.value)}
                         className="input-dark pl-9 pr-8 text-sm cursor-pointer"
                       >
-                        <option value="">Select your budget range</option>
+                        <option value="">{t.planner.selectBudget}</option>
                         {budgets.map((b) => (
                           <option key={b} value={b}>{b}</option>
                         ))}
@@ -421,7 +418,7 @@ export default function TripPlannerModal() {
                           onClick={() => setBudget("")}
                           className="text-[10px] text-white/35 hover:text-white/60 transition-colors"
                         >
-                          change
+                          {t.planner.change}
                         </button>
                       </div>
                     )}
@@ -454,7 +451,7 @@ export default function TripPlannerModal() {
                       <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M21 12a9 9 0 1 1-6.219-8.56" />
                       </svg>
-                      Sending…
+                      {t.planner.sending}
                     </>
                   ) : (
                     <>
@@ -465,7 +462,7 @@ export default function TripPlannerModal() {
                         <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
                         <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
                       </svg>
-                      Book Now
+                      {t.planner.book}
                     </>
                   )}
                 </button>

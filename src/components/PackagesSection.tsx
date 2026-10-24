@@ -11,7 +11,6 @@ export default function PackagesSection() {
       location: "Serengeti National Park",
       days: `3 ${t.packagesHome.days}`,
       nights: `2 ${t.packagesHome.nights}`,
-      price: "$1,200",
       tag: t.packagesHome.tagClassic,
       image: "/images/serengeti.jpg",
       bg: "bg-amber-950/30",
@@ -21,7 +20,6 @@ export default function PackagesSection() {
       location: "Ngorongoro & Tarangire",
       days: `5 ${t.packagesHome.days}`,
       nights: `4 ${t.packagesHome.nights}`,
-      price: "$1,850",
       tag: t.packagesHome.tagFamily,
       image: "/images/ngorongoro.jpg",
       bg: "bg-emerald-950/30",
@@ -32,7 +30,6 @@ export default function PackagesSection() {
       location: "Zanzibar",
       days: `7 ${t.packagesHome.days}`,
       nights: `6 ${t.packagesHome.nights}`,
-      price: "$1,650",
       tag: t.packagesHome.tagBeach,
       image: "/images/zanzibar.jpg",
       bg: "bg-cyan-950/30",
@@ -42,7 +39,6 @@ export default function PackagesSection() {
       location: "Mount Kilimanjaro",
       days: `8 ${t.packagesHome.days}`,
       nights: `7 ${t.packagesHome.nights}`,
-      price: "$2,800",
       tag: t.packagesHome.tagLuxury,
       image: "/images/kilimanjaro.jpg",
       bg: "bg-blue-950/30",
@@ -171,14 +167,11 @@ export default function PackagesSection() {
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-[var(--gold)] font-bold text-lg">{pkg.price}</span>
-                    <span className="text-white/40 text-xs ml-1">{t.packagesHome.person}</span>
-                  </div>
+                <div className="flex items-center justify-center">
+                
                   <Link
                     href="/safari-packages"
-                    className="flex items-center gap-1.5 text-sm font-semibold text-white bg-white/10 hover:bg-[var(--gold)] hover:text-black px-4 py-2 rounded-lg transition-all duration-200"
+                    className="flex items-center gap-1.5 w-full justify-center text-sm font-semibold text-white bg-white/10 hover:bg-[var(--gold)] hover:text-black px-4 py-2 rounded-lg transition-all duration-200"
                   >
                     {t.packagesHome.viewDetails}
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

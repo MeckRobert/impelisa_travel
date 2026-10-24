@@ -12,11 +12,13 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [mobileLangOpen, setMobileLangOpen] = useState(false);
   const pathname = usePathname();
   const { openModal } = useTripPlanner();
   const { locale, t, setLocale } = useLanguage();
   const { theme, setTheme } = useTheme();
   const langRef = useRef<HTMLDivElement>(null);
+  const mobileLangRef = useRef<HTMLDivElement>(null);
   const overHero = pathname === "/" && !scrolled;
 
   const navLinks = [
@@ -40,6 +42,7 @@ export default function Navbar() {
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
       if (!langRef.current?.contains(event.target as Node)) setLangOpen(false);
+      if (!mobileLangRef.current?.contains(event.target as Node)) setMobileLangOpen(false);
     };
     document.addEventListener("mousedown", onClick);
     return () => document.removeEventListener("mousedown", onClick);
@@ -48,6 +51,10 @@ export default function Navbar() {
   const actionClass = overHero
     ? "text-white/80 hover:text-white"
     : "text-[var(--fg)]/70 hover:text-[var(--fg)]";
+
+  const mobileActionClass = overHero
+    ? "text-white/90 hover:text-white active:scale-90"
+    : "text-[var(--fg)]/80 hover:text-[var(--fg)] active:scale-90";
 
   return (
     <header
@@ -62,6 +69,7 @@ export default function Navbar() {
       }`}
     >
       <nav className="max-w-[1320px] mx-auto px-6 flex items-center h-[72px] gap-6">
+        {/* ── Logo ── */}
         <Link href="/" className="flex items-center gap-3 shrink-0">
           <div className="w-12 h-12 relative">
             <Image
@@ -81,6 +89,7 @@ export default function Navbar() {
           </div>
         </Link>
 
+        {/* ── Desktop nav links ── */}
         <div className="hidden lg:flex items-center gap-6 ml-6 flex-1">
           {navLinks.map((link) => (
             <Link
@@ -95,6 +104,7 @@ export default function Navbar() {
           ))}
         </div>
 
+        {/* ── Desktop right controls ── */}
         <div className="hidden lg:flex items-center gap-3 ml-auto">
           <div className="relative" ref={langRef}>
             <button
@@ -161,23 +171,105 @@ export default function Navbar() {
           </button>
         </div>
 
-        <button
-          className={`lg:hidden ml-auto p-1 ${overHero ? "text-white" : "text-[var(--fg)]"}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          {menuOpen ? (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M18 6 6 18M6 6l12 12"/>
-            </svg>
-          ) : (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M3 12h18M3 6h18M3 18h18"/>
-            </svg>
-          )}
-        </button>
+        {/* ── Mobile: language + theme + hamburger ── */}
+        <div className="lg:hidden ml-auto flex items-center gap-1">
+
+          {/* Language pill */}
+          <div className="relative" ref={mobileLangRef}>
+            <button
+              type="button"
+              onClick={() => setMobileLangOpen((o) => !o)}
+              aria-label={t.nav.language}
+              className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold tracking-wider transition-all duration-200 border ${
+                overHero
+                  ? `border-white/25 text-white/90 hover:border-white/50 hover:bg-white/10 ${mobileLangOpen ? "bg-white/10 border-white/50" : ""}`
+                  : `border-[var(--line)] text-[var(--fg)]/80 hover:border-[var(--gold)]/60 hover:text-[var(--gold)] ${mobileLangOpen ? "border-[var(--gold)]/60 text-[var(--gold)] bg-[var(--gold)]/5" : ""}`
+              }`}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2a14.5 14.5 0 0 1 0 20 14.5 14.5 0 0 1 0-20"/>
+                <path d="M2 12h20"/>
+              </svg>
+              {currentLang.short}
+            </button>
+
+            {mobileLangOpen && (
+              <div className="absolute right-0 top-full mt-2 w-44 rounded-xl border border-[var(--line)] bg-[var(--bg-2)] py-1.5 shadow-2xl z-50">
+                <p className="px-3 pb-1 pt-0.5 text-[10px] uppercase tracking-widest text-[var(--fg)]/40 font-medium">
+                  {t.nav.language}
+                </p>
+                {LOCALES.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      setLocale(item.id);
+                      setMobileLangOpen(false);
+                    }}
+                    className={`flex w-full items-center justify-between px-3 py-2.5 text-sm transition-colors ${
+                      locale === item.id
+                        ? "text-[var(--gold)] bg-[var(--gold)]/10 font-medium"
+                        : "text-[var(--fg)] hover:bg-[var(--bg-3)]"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    {locale === item.id ? (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-[var(--gold)] shrink-0">
+                        <path d="M20 6 9 17l-5-5"/>
+                      </svg>
+                    ) : (
+                      <span className="text-xs opacity-40">{item.short}</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Theme toggle */}
+          <button
+            type="button"
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            aria-label={theme === "light" ? t.nav.themeDark : t.nav.themeLight}
+            className={`flex items-center justify-center w-9 h-9 rounded-lg transition-all duration-200 ${mobileActionClass} ${
+              overHero ? "hover:bg-white/10" : "hover:bg-[var(--bg-3)]"
+            }`}
+          >
+            {theme === "light" ? (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+              </svg>
+            )}
+          </button>
+
+          {/* Hamburger */}
+          <button
+            className={`flex items-center justify-center w-9 h-9 rounded-lg transition-all duration-200 ${mobileActionClass} ${
+              overHero ? "hover:bg-white/10" : "hover:bg-[var(--bg-3)]"
+            }`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 6 6 18M6 6l12 12"/>
+              </svg>
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M3 12h18M3 6h18M3 18h18"/>
+              </svg>
+            )}
+          </button>
+        </div>
       </nav>
 
+      {/* ── Mobile dropdown menu ── */}
       {menuOpen && (
         <div className="lg:hidden bg-[var(--nav-bg)] backdrop-blur-md border-t border-[var(--line)] px-6 py-4">
           {navLinks.map((link) => (
@@ -192,32 +284,11 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <div className="pt-4 space-y-3">
-            <p className="text-xs uppercase tracking-wider text-[var(--fg)]/50">{t.nav.language}</p>
-            <div className="grid grid-cols-2 gap-2">
-              {LOCALES.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setLocale(item.id)}
-                  className={`rounded-lg border px-3 py-2 text-sm ${
-                    locale === item.id
-                      ? "border-[var(--gold)] text-[var(--gold)] bg-[var(--gold)]/10"
-                      : "border-[var(--line)] text-[var(--fg)]"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
+          <div className="pt-4">
             <button
-              type="button"
-              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-              className="w-full rounded-lg border border-[var(--line)] px-3 py-2 text-sm text-[var(--fg)]"
+              onClick={() => { openModal(); setMenuOpen(false); }}
+              className="btn-gold w-full justify-center text-sm"
             >
-              {theme === "light" ? t.nav.themeDark : t.nav.themeLight}
-            </button>
-            <button onClick={() => { openModal(); setMenuOpen(false); }} className="btn-gold w-full justify-center text-sm">
               {t.nav.planTrip}
             </button>
           </div>
