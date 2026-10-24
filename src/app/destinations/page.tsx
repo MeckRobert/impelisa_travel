@@ -21,8 +21,6 @@ export default function DestinationsPage() {
       location: "Tanzania",
       image: "/images/kilimanjaro.jpg",
       tag: t.destPage.mountain,
-      duration: "7–9 Days",
-      price: `${t.destPage.from} $2,800`,
       desc: t.destPage.d1desc,
       featured: true,
     },
@@ -31,8 +29,6 @@ export default function DestinationsPage() {
       location: "Tanzania",
       image: "/images/serengeti.jpg",
       tag: t.destPage.park,
-      duration: "3–7 Days",
-      price: `${t.destPage.from} $1,200`,
       desc: t.destPage.d2desc,
       featured: true,
     },
@@ -41,8 +37,6 @@ export default function DestinationsPage() {
       location: "Tanzania",
       image: "/images/zanzibar.jpg",
       tag: t.destPage.beach,
-      duration: "5–10 Days",
-      price: `${t.destPage.from} $1,650`,
       desc: t.destPage.d3desc,
       featured: false,
     },
@@ -51,8 +45,6 @@ export default function DestinationsPage() {
       location: "Tanzania",
       image: "/images/ngorongoro.jpg",
       tag: t.destPage.park,
-      duration: "2–4 Days",
-      price: `${t.destPage.from} $950`,
       desc: t.destPage.d4desc,
       featured: false,
     },
@@ -61,8 +53,6 @@ export default function DestinationsPage() {
       location: "Tanzania",
       image: "/images/mikumi.jpg",
       tag: t.destPage.park,
-      duration: "2–5 Days",
-      price: `${t.destPage.from} $800`,
       desc: t.destPage.d5desc,
       featured: false,
     },
@@ -71,8 +61,6 @@ export default function DestinationsPage() {
       location: "Tanzania",
       image: "/images/serengeti.jpg",
       tag: t.destPage.park,
-      duration: "1–3 Days",
-      price: `${t.destPage.from} $600`,
       desc: t.destPage.d6desc,
       featured: false,
     },
@@ -165,22 +153,7 @@ export default function DestinationsPage() {
                 {/* Body */}
                 <div className="p-5 bg-[var(--bg-3)]">
                   <p className="text-white/55 text-sm leading-relaxed mb-4">{dest.desc}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3 text-xs text-white/50">
-                      <span className="flex items-center gap-1">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <rect x="3" y="4" width="18" height="18" rx="2" />
-                          <line x1="16" y1="2" x2="16" y2="6" />
-                          <line x1="8" y1="2" x2="8" y2="6" />
-                          <line x1="3" y1="10" x2="21" y2="10" />
-                        </svg>
-                        {dest.duration}
-                      </span>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-[var(--gold)] font-bold text-base">{dest.price}</div>
-                    </div>
-                  </div>
+                
                   <TripPlannerButton className="mt-4 w-full flex items-center justify-center gap-2 text-sm font-semibold bg-white/8 hover:bg-[var(--gold)] hover:text-black text-white py-2.5 rounded-lg transition-all duration-200">
                     {t.destPage.explore}
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
